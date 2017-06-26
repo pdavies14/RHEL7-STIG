@@ -182,3 +182,10 @@
       - audit
       - RHEL-07-040420
       - ssh
+
+- name: "PRELIM | Set architecture for auditd tasks"
+  set_fact:
+      audit_arch: "b{{ ansible_architecture | regex_replace('.*(\\d\\d$)','\\1') }}"
+  tags:
+      - cat2
+      - auditd
