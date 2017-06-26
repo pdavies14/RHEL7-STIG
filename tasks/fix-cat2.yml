@@ -1098,15 +1098,18 @@
       - notimplemented
 
 - name: "MEDIUM | RHEL-07-030410 | PATCH | All uses of the chmod command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S chmod -F auid>=500 -F auid!=4294967295 -k perm_mod"
   when: rhel_07_030410
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030410
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030420 | PATCH | All uses of the fchmod command must be audited."
   command: "true"
