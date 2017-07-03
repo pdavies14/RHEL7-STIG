@@ -28,3 +28,6 @@
   poll: 0
   tags:
     - aide
+
+- name: restart auditd
+  command: service auditd restart
