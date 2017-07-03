@@ -245,7 +245,7 @@
       create: yes
       dest: /etc/security/pwquality.conf
       regexp: '^#?\s*maxrepeat'
-      line: maxrepeat = 4
+      line: maxrepeat = 2
   when: rhel_07_010180
   tags:
       - cat2
@@ -1054,56 +1054,75 @@
       - notimplemented
 
 - name: "MEDIUM | RHEL-07-030370 | PATCH | All uses of the chown command must be audited."
-  command: "true"
-  changed_when: no
+#  command: "true"
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S chown -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030370
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030370
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030380 | PATCH | All uses of the fchown command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S fchown -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030380
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030380
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030390 | PATCH | All uses of the lchown command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030390
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030390
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030400 | PATCH | All uses of the fchownat command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S fchownat -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030400
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030400
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030410 | PATCH | All uses of the chmod command must be audited."
+#  command: "true"
   lineinfile:
       create: yes
       line: "{{ item }}"
       dest: /etc/audit/rules.d/audit.rules
   with_items:
-      - "-a always,exit -F arch={{ audit_arch }} -S chmod -F auid>=500 -F auid!=4294967295 -k perm_mod"
+      - "-a always,exit -F arch={{ audit_arch }} -S chmod -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030410
   tags:
       - cat2
@@ -1112,609 +1131,830 @@
       - RHEL-07-030410
 
 - name: "MEDIUM | RHEL-07-030420 | PATCH | All uses of the fchmod command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S fchmod -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030420
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030420
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030430 | PATCH | All uses of the fchmodat command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030430
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030430
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030440 | PATCH | All uses of the setxattr command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S setxattr -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030440
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030440
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030450 | PATCH | All uses of the fsetxattr command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S fsetxattr -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030450
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030450
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030460 | PATCH | All uses of the lsetxattr command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S lsetxattr -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030460
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030460
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030470 | PATCH | All uses of the removexattr command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S removexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030470
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030470
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030480 | PATCH | All uses of the fremovexattr command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030480
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030480
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030490 | PATCH | All uses of the lremovexattr command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S lremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  notify: restart auditd
   when: rhel_07_030490
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030490
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030500 | PATCH | All uses of the creat command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S creat -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access"
+  notify: restart auditd
   when: rhel_07_030500
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030500
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030510 | PATCH | All uses of the open command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S open -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access"
+  notify: restart auditd
   when: rhel_07_030510
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030510
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030520 | PATCH | All uses of the openat command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S openat -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access"
+  notify: restart auditd
   when: rhel_07_030520
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030520
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030530 | PATCH | All uses of the open_by_handle_at command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access"
+  notify: restart auditd
   when: rhel_07_030530
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030530
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030540 | PATCH | All uses of the truncate command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S truncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access"
+  notify: restart auditd
   when: rhel_07_030540
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030540
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030550 | PATCH | All uses of the ftruncate command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access"
+  notify: restart auditd
   when: rhel_07_030550
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030550
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030560 | PATCH | All uses of the semanage command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/sbin/semanage -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030560
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030560
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030570 | PATCH | All uses of the setsebool command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/sbin/setsebool -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030570
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030570
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030580 | PATCH | All uses of the chcon command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/chcon -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030580
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030580
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030590 | PATCH | All uses of the restorecon command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/sbin/restorecon -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030590
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030590
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030600 | PATCH | The operating system must generate audit records for all successful/unsuccessful account access count events."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /var/log/tallylog -p wa -k logins"
+  notify: restart auditd
   when: rhel_07_030600
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030600
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030610 | PATCH | The operating system must generate audit records for all unsuccessful account access events."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /var/run/faillock/ -p wa -k logins"
+  notify: restart auditd
   when: rhel_07_030610
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030610
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030620 | PATCH | The operating system must generate audit records for all successful account access events."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /var/log/lastlog -p wa -k logins"
+  notify: restart auditd
   when: rhel_07_030620
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030620
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030630 | PATCH | All uses of the passwd command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/passwd -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd"
+  notify: restart auditd
   when: rhel_07_030630
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030630
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030640 | PATCH | All uses of the unix_chkpwd command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/sbin/unix_chkpwd -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd"
+  notify: restart auditd
   when: rhel_07_030640
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030640
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030650 | PATCH | All uses of the gpasswd command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/gpasswd -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd"
+  notify: restart auditd
   when: rhel_07_030650
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030650
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030660 | PATCH | All uses of the chage command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/chage -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd"
+  notify: restart auditd
   when: rhel_07_030660
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030660
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030670 | PATCH | All uses of the userhelper command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/sbin/userhelper -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd"
+  notify: restart auditd
   when: rhel_07_030670
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030670
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030680 | PATCH | All uses of the su command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/bin/su -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030680
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030680
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030690 | PATCH | All uses of the sudo command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/sudo -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030690
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030690
-      - notimplemented
 
-- name: "MEDIUM | RHEL-07-030700 | PATCH | All uses of the sudo command must be audited."
-  command: "true"
-  changed_when: no
+- name: "MEDIUM | RHEL-07-030700 | PATCH | All uses of the sudoers command must be audited."
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /etc/sudoers -p wa -k privileged-actions"
+      - "-w /etc/sudoers.d -p wa -k privileged-actions"
+  notify: restart auditd
   when: rhel_07_030700
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030700
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030710 | PATCH | All uses of the newgrp command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/newgrp -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030710
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030710
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030720 | PATCH | All uses of the chsh command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/chsh -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030720
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030720
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030730 | PATCH | All uses of the sudoedit command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/bin/sudoedit -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change"
+  notify: restart auditd
   when: rhel_07_030730
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030730
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030740 | PATCH | All uses of the mount command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S mount -F auid>=1000 -F auid!=4294967295 -k privileged-mount"
+  notify: restart auditd
   when: rhel_07_030740
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030740
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030750 | PATCH | All uses of the umount command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/bin/umount -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-mount"
+  notify: restart auditd
   when: rhel_07_030750
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030750
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030760 | PATCH | All uses of the postdrop command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/sbin/postdrop -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-postfix"
+  notify: restart auditd
   when: rhel_07_030760
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030760
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030770 | PATCH | All uses of the postqueue command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/sbin/postqueue -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-postfix"
+  notify: restart auditd
   when: rhel_07_030770
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030770
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030780 | PATCH | All uses of the ssh-keysign command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/libexec/openssh/ssh-keysign -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-ssh"
+  notify: restart auditd
   when: rhel_07_030780
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030780
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030790 | PATCH | All uses of the pt_chown command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/libexec/pt_chown -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged_terminal"
+  notify: restart auditd
   when: rhel_07_030790
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030790
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030800 | PATCH | All uses of the crontab command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/usr/bin/crontab -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-cron"
+  notify: restart auditd
   when: rhel_07_030800
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030800
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030810 | PATCH | All uses of the pam_timestamp_check command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F path=/sbin/pam_timestamp_check -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-pam"
+  notify: restart auditd
   when: rhel_07_030810
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030810
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030820 | PATCH | All uses of the init_module command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S init_module -k module-change"
+  notify: restart auditd
   when: rhel_07_030820
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030820
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030830 | PATCH | All uses of the delete_module command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S delete_module -k module-change"
+  notify: restart auditd
   when: rhel_07_030830
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030830
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030840 | PATCH | All uses of the insmod command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /sbin/insmod -p x -F auid!=4294967295 -k module-change"
+  notify: restart auditd
   when: rhel_07_030840
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030840
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030850 | PATCH | All uses of the rmmod command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items: 
+      - "-w /sbin/rmmod -p x -F auid!=4294967295 -k module-change"
+  notify: restart auditd
   when: rhel_07_030850
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030850
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030860 | PATCH | All uses of the modprobe command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /sbin/modprobe -p x -F auid!=4294967295 -k module-change"
+  notify: restart auditd
   when: rhel_07_030860
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030860
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030870 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/passwd."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /etc/passwd -p wa -k identity"
+  notify: restart auditd
   when: rhel_07_030870
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030870
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030871 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /etc/group -p wa -k identity"
+  notify: restart auditd
   when: rhel_07_030871
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030871
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030872 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/gshadow."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /etc/gshadow -p wa -k identity"
+  notify: restart auditd
   when: rhel_07_030872
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030872
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030873 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/shadow."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /etc/shadow -p wa -k identity"
+  notify: restart auditd
   when: rhel_07_030873
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030873
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030874 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-w /etc/opasswd -p wa -k identity"
+  notify: restart auditd
   when: rhel_07_030874
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030874
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030880 | PATCH | All uses of the rename command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S rename -F perm=x -F auid>=1000 -F auid!=4294967295 -k delete"
+  notify: restart auditd
   when: rhel_07_030880
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030880
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030890 | PATCH | All uses of the renameat command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S renameat -F perm=x -F auid>=1000 -F auid!=4294967295 -k delete"
+  notify: restart auditd
   when: rhel_07_030890
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030890
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030900 | PATCH | All uses of the rmdir command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S rmdir -F perm=x -F auid>=1000 -F auid!=4294967295 -k delete"
+  notify: restart auditd
   when: rhel_07_030900
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030900
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030910 | PATCH | All uses of the unlink command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S unlink -F perm=x -F auid>=1000 -F auid!=4294967295 -k delete"
+  notify: restart auditd
   when: rhel_07_030910
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030910
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-030920 | PATCH | All uses of the unlinkat command must be audited."
-  command: "true"
-  changed_when: no
+  lineinfile:
+      create: yes
+      line: "{{ item }}"
+      dest: /etc/audit/rules.d/audit.rules
+  with_items:
+      - "-a always,exit -F arch={{ audit_arch }} -S unlinkat -F perm=x -F auid>=1000 -F auid!=4294967295 -k delete"
+  notify: restart auditd
   when: rhel_07_030920
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030920
-      - notimplemented
 
 - name: "MEDIUM | RHEL-07-031000 | PATCH | The system must send rsyslog output to a log aggregation server."
   command: "true"
